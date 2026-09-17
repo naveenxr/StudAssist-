@@ -17,7 +17,14 @@ dotenv.config();
 const app = express();
 
 // Configure Middleware
-app.use(cors());
+const allowedOrigins = process.env.CLIENT_ORIGIN
+  ? process.env.CLIENT_ORIGIN.split(',').map(o => o.trim())
+  : '*';
+
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 app.use(express.json());
 
 // API Routes
